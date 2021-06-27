@@ -1,0 +1,11 @@
+{
+  "key_file": "<YOUR FILE HERE>",
+  "folder_id": "<YOUR FOLDER ID>",
+  "zone": "ru-central1-a",
+  "subnet_id": "<YOUR SUBNET ID>",
+  "source_image": "ubuntu-1604-lts",
+  "ssh_username": "ubuntu",
+  "platform_id": "standard-v1",
+  "instance_cores": "2",
+  "instance_mem_gb": "2"
+}

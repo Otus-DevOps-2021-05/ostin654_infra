@@ -1,0 +1,44 @@
+{
+  "builders":
+  [
+    {
+      "type": "yandex",
+      "service_account_key_file": "{{user `key_file`}}",
+      "folder_id": "{{user `folder_id`}}",
+      "zone": "{{user `zone`}}",
+      "subnet_id": "{{user `subnet_id`}}",
+      "use_ipv4_nat": true,
+
+      "source_image_family": "{{user `source_image`}}",
+      "image_name": "reddit-full-{{timestamp}}",
+      "image_family": "reddit-full",
+      "ssh_username": "{{user `ssh_username`}}",
+      "platform_id": "{{user `platform_id`}}",
+
+      "instance_cores": "{{user `instance_cores`}}",
+      "instance_mem_gb": "{{user `instance_mem_gb`}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "scripts/install_ruby.sh",
+      "execute_command": "sudo {{.Path}}"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/install_mongodb.sh",
+      "execute_command": "sudo {{.Path}}"
+    },
+    {
+      "type": "file",
+      "source": "files/app.service",
+      "destination": "/tmp/app.service"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/deploy.sh",
+      "execute_command": "sudo {{.Path}}"
+    }
+  ]
+}

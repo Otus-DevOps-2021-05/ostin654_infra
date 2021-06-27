@@ -62,3 +62,27 @@ yc compute instance create \
   --metadata serial-port-enable=1 \
   --metadata-from-file user-data=metadata.yaml
 ```
+
+# Домашнее задание №7
+
+Команды следует запускать из директории packer, так как в нем предполагается наличие файла ключа `.packer_key.json`
+
+Также необходимо создать файл `variables.json` по примеру `variables.json.examples`
+
+## Создание базового образа
+
+```shell
+packer build --var-file=variables.json ubuntu16.json
+```
+
+### Используя скрипт
+
+```shell
+../config-scripts/create-reddit-vm.sh
+```
+
+## Создание образа с запущенным приложением
+
+```shell
+packer build --var-file=variables.json immutable.json
+```

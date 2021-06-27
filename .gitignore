@@ -1,1 +1,3 @@
 /.idea/
+/packer/.packer_key.json
+/packer/variables.json
