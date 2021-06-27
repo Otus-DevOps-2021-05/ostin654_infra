@@ -1,8 +1,8 @@
 {
-  "key_file": "<YOUR FILE HERE>",
-  "folder_id": "<YOUR FOLDER ID>",
+  "key_file": "",
+  "folder_id": "yourfolderid12345678",
   "zone": "ru-central1-a",
-  "subnet_id": "<YOUR SUBNET ID>",
+  "subnet_id": "yoursubnetid12345678",
   "source_image": "ubuntu-1604-lts",
   "ssh_username": "ubuntu",
   "platform_id": "standard-v1",
