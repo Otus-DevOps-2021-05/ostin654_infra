@@ -86,3 +86,20 @@ packer build --var-file=variables.json ubuntu16.json
 ```shell
 packer build --var-file=variables.json immutable.json
 ```
+
+# Домашнее задание №8
+
+Для работы с terraform необходимо перейти в каталог terraform и выполнить
+
+```shell
+terraform init
+```
+
+Также необходимо создать файл `terraform.tfvars` по примеру `terraform.tfvars.example`
+
+## Описание конфигурации
+
+- `inputs.tf` входные параметры
+- `main.tf` конфигурация провиженера и инстансов
+- `lb.tf` конфигурация балансировщика
+- `outputs.tf` выходные параметры
