@@ -16,11 +16,19 @@ variable "yc_folder_id" {
   type = string
 }
 
-variable "yc_image_id" {
+variable "yc_subnet_id" {
   type = string
 }
 
-variable "yc_subnet_id" {
+variable "app_disk_image" {
+  type = string
+}
+
+variable "db_disk_image" {
+  type = string
+}
+
+variable "yc_bucket_name" {
   type = string
 }
 

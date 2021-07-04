@@ -65,7 +65,8 @@ yc compute instance create \
 
 # Домашнее задание №7
 
-Команды следует запускать из директории packer, так как в нем предполагается наличие файла ключа `packer_key.json`
+Команды следует запускать из директории packer, так как в нем
+предполагается наличие файла ключа `packer_key.json`
 
 Также необходимо создать файл `variables.json` по примеру `variables.json.examples`
 
@@ -103,3 +104,32 @@ terraform init
 - `main.tf` конфигурация провиженера и инстансов
 - `lb.tf` конфигурация балансировщика
 - `outputs.tf` выходные параметры
+
+# Домашнее задание №9
+
+Созданы 2 окружение `stage` и `prod`.
+
+Настроено хранение state в yandex object storage.
+
+Необходимо создать сервисный аккаунт и access key для него.
+
+```shell
+yc iam access-key create --service-account-name SERVICE_ACCOUNT_NAME
+```
+
+Для инициализации backend необходимо указать реквизиты при запуске `terraform init`
+
+```shell
+terraform init -backend-config="access_key=YOUR_ACCESS_KEY" -backend-config="secret_key=YOUR_SECRET_KEY"
+```
+
+## Provisioners для app
+
+Добавлены provisioners для app. Так как база данных находится на отдельном инстансе,
+необходимо добавить в `puma.service` переменную окружения `DATABASE_URL`.
+Для этого в модуле `db` выведена output переменная `internal_ip_address_db` и далее она передается
+как входная переменная для модуля `app`. В модуле `app` создается файл `db.env` с нужной
+переменной окружения.
+
+Для корректного подключения к базе данных необходимо было поменять конфигурационный файл `mongod.conf`
+в образе `reddit-db`. Изначально база данных принимала подключения только на адрес `localhost`.
