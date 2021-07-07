@@ -6,11 +6,11 @@ provider "yandex" {
 }
 
 module "vpc" {
-  source          = "../modules/vpc"
+  source       = "../modules/vpc"
   network_name = "reddit-app-network"
-  subnet_name = "reddit-app-subnet"
-  zone = "ru-central1-a"
-  cidr = "192.168.10.0/24"
+  subnet_name  = "reddit-app-subnet"
+  zone         = "ru-central1-a"
+  cidr         = "192.168.10.0/24"
 }
 
 module "app" {
