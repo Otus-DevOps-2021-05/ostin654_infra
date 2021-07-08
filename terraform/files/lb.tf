@@ -35,3 +35,7 @@ resource "yandex_lb_network_load_balancer" "lb" {
     }
   }
 }
+
+output "external_ip_address_lb" {
+  value = tolist(tolist(yandex_lb_network_load_balancer.lb.listener).0.external_address_spec).0.address
+}
