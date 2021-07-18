@@ -41,7 +41,7 @@
       tags: deploy-tag
       notify: reload puma
     - name: Bundle install
-      community.general.bundler:
+      bundler:
         state: present
         chdir: /home/ubuntu/reddit
       tags: deploy-tag
