@@ -136,7 +136,7 @@ terraform init -backend-config="access_key=YOUR_ACCESS_KEY" -backend-config="sec
 
 # Домашнее задание №10
 
-Настройки и плейбуки ansible находятся в каталоге ansible.
+Настройки и плейбуки ansible находятся в каталоге `ansible`.
 
 Плейбук `ansible/clone.yml` клонирует git репозиторий в указанный каталог на сервере.
 При повторном запуске `changed=0` и ничего не меняется, так как репозиторий склонирован.
@@ -198,3 +198,40 @@ ansible app -m command -a 'rm -rf ~/reddit'
   }
 }
 ```
+
+# Домашнее задание №11
+
+В каталоге `ansible` созданы плейбуки разных вариантов:
+
+- `reddit_app_one_play.yml` - один плейбук на все хосты, необходимо указывать теги и помнить, для каких хостов
+- `reddit_app_multiple_plays.yml` - несколько сценариев в одном плейбуке, удобнее, можно не указывать теги и не нужно помнить, для каких хостов, какие теги
+- `site.yml` - импортирует 3 плейбука под каждый этап деплоя
+- `packer_app.yml` - плейбук для подготовки packer-образа для инстанса приложения
+- `packer_db.yml` - плейбук для подготовки packer-образа для инстанса базы данных
+
+`inventory.py` - скрипт, который получает информацию о хостах из terraform state, поддерживает также и remote backend.
+
+## Порядок развертывания инфраструктуры:
+
+Подготовить образы инстансов.
+
+```shell
+packer build --var-file=packer/variables.json packer/db.json
+packer build --var-file=packer/variables.json packer/app.json
+```
+
+Поднять инстансы.
+
+```shell
+cd terraform/stage
+terraform apply
+```
+
+Задеплоить приложение.
+
+```shell
+cd ../../ansible
+TF_STATE=../terraform/stage ansible-playbook site.yml -D -vv
+```
+
+`TF_STATE` - переменная окружения, которая указывает путь до каталога с инфраструктурой terraform.

@@ -21,26 +21,4 @@ resource "yandex_compute_instance" "app" {
   metadata = {
     ssh-keys = "ubuntu:${file(var.ssh_public_key)}"
   }
-
-  connection {
-    type        = "ssh"
-    host        = self.network_interface.0.nat_ip_address
-    user        = "ubuntu"
-    agent       = false
-    private_key = file(var.ssh_private_key)
-  }
-
-  provisioner "file" {
-    content     = "DATABASE_URL=${var.db_host}:${var.db_port}\n"
-    destination = "/home/ubuntu/db.env"
-  }
-
-  provisioner "file" {
-    source      = "../modules/app/files/puma.service"
-    destination = "/tmp/puma.service"
-  }
-
-  provisioner "remote-exec" {
-    script = "../modules/app/files/deploy.sh"
-  }
 }

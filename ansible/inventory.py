@@ -1,7 +1,14 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
+import os
 import sys
+import json
+import subprocess
+
+terraform_location = os.getenv('TF_STATE')
 
 if len(sys.argv) > 1 and sys.argv[1] == '--list':
-    with open('inventory.json', 'r') as file:
-        print file.read()
+    completed_process = subprocess.run(["terraform", "state", "pull"], capture_output=True, cwd=terraform_location)
+    terraform_state = json.loads(completed_process.stdout)
+    inventory = {"app": {"hosts": ["appserver"]}, "db": {"hosts": ["dbserver"]}, "_meta": {"hostvars": {"appserver": {"ansible_host": terraform_state["outputs"]["external_ip_address_app"]["value"], "db_host": terraform_state["outputs"]["internal_ip_address_db"]["value"]}, "dbserver": {"ansible_host": terraform_state["outputs"]["external_ip_address_db"]["value"]}}}}
+    print(json.dumps(inventory))
