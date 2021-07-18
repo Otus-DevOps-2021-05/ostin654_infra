@@ -1,0 +1,18 @@
+[Unit]
+Description=App
+
+[Service]
+Type=forking
+PIDFile=/home/ubuntu/reddit/puma.pid
+WorkingDirectory=/home/ubuntu/reddit
+EnvironmentFile=/home/ubuntu/db.env
+
+User=root
+Group=root
+
+ExecStart=/usr/local/bin/puma -d --pidfile /home/ubuntu/reddit/puma.pid --state /home/ubuntu/reddit/puma.state
+ExecStop=/usr/local/bin/pumactl -S /home/ubuntu/reddit/puma.state stop
+TimeoutSec=300
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,21 @@
+---
+- name: Deploy application
+  hosts: app
+  tags: deploy-tag
+  tasks:
+    - name: Fetch the latest version of application code
+      git:
+        repo: 'https://github.com/express42/reddit.git'
+        dest: /home/ubuntu/reddit
+        version: monolith
+      notify: reload puma
+    - name: Bundle install
+      community.general.bundler:
+        state: present
+        chdir: /home/ubuntu/reddit
+  handlers:
+    - name: reload puma
+      become: yes
+      systemd:
+        name: puma
+        state: restarted
