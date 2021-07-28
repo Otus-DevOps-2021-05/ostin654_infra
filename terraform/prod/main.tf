@@ -34,6 +34,7 @@ module "db" {
   ssh_public_key = var.ssh_public_key
   disk_image     = var.db_disk_image
   subnet_id      = module.vpc.subnet_id
+  is_nat         = true
   cores          = 2
   memory         = 2
   core_fraction  = 20

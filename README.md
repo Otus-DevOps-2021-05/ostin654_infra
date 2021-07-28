@@ -235,3 +235,45 @@ TF_STATE=../terraform/stage ansible-playbook site.yml -D -vv
 ```
 
 `TF_STATE` - переменная окружения, которая указывает путь до каталога с инфраструктурой terraform.
+
+# Домашнее задание №12
+
+Созданы роли для настройки MongoDB и для необходимых настроек приложения. Создан каталог для ролей `ansible/roles`.
+Плейбуки перенесены в каталог `ansible/playbooks`.
+Созданы каталоги под каждое окружение `ansible/environments/prod` и `ansible/environments/stage`.
+
+Inventory перенесены в каталоги окружений. Также сделаны динамические inventory. Берут хосты из соответствующих окружений terraform.
+
+- `ansible/environments/stage/inventory.py`
+- `ansible/environments/prod/inventory.py`
+
+Пример по запуску плейбуков для stage:
+
+```shell
+ansible-playbook site.yml
+```
+
+Для prod:
+
+```shell
+ansible-playbook -i environments/prod/inventory.py site.yml
+```
+
+Добавлены зашифрованные файлы ansible-vault. Ключ для vault должен находиться в файле
+
+```
+ansible/vault.key
+```
+
+Файлы с секретными данными:
+
+- `ansible/environments/stage/credentials.yml`
+- `ansible/environments/prod/credentials.yml`
+
+Добавлена роль nginx. Для установки зависимостей выполнить:
+
+`ansible-galaxy install -r environments/stage/requirements.yml`
+
+или
+
+`ansible-galaxy install -r environments/prod/requirements.yml`
