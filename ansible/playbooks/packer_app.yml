@@ -1,14 +1,7 @@
 ---
-
-- name: Install ruby
+- name: Configure App
   hosts: all
   become: yes
-  tasks:
-    - name: Install required packages
-      apt:
-        update_cache: yes
-        name:
-          - git
-          - ruby-full
-          - ruby-bundler
-          - build-essential
+  roles:
+    - app
+    - jdauphant.nginx
