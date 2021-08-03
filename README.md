@@ -277,3 +277,32 @@ ansible/vault.key
 или
 
 `ansible-galaxy install -r environments/prod/requirements.yml`
+
+# Домашнее задание №13
+
+Для создания инстансов локально используется vagrant. Чтобы запустить тестовую инфраструктуру локально, необходимо выполнить в каталоге `ansible`:
+
+```shell
+vafrant up
+```
+
+Будут созданы необходимые VM, а также произведена первоначальная настройка согласно плейбукам ansible.
+
+После запуска и провиженинга инстансов приложение будет доступно по адресу `http://10.10.10.20/`
+
+## Тестирование роли db
+
+В каталоге `ansible/roles/db` выполнить
+
+```shell
+molecule test
+```
+
+Проверено для
+
+```
+molecule 3.3.4 using python 3.8
+    ansible:2.11.3
+    delegated:3.3.4 from molecule
+    vagrant:0.6.3 from molecule_vagrant
+```

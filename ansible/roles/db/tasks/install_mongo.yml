@@ -1,0 +1,48 @@
+---
+
+- name: Install Ubuntu packages
+  apt:
+    name:
+      - apt-transport-https
+      - curl
+      - gnupg
+    state: present
+  register: _apt
+  until: _apt is succeeded
+  retries: 5
+  tags: install
+
+- name: Add apt key for MongoDB repository
+  apt_key:
+    url: "https://www.mongodb.org/static/pgp/server-4.2.asc"
+    state: present
+  register: _apt
+  until: _apt is succeeded
+  retries: 5
+  tags: install
+
+- name: Ensure MongoDB apt repository exists
+  apt_repository:
+    repo: "deb https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.2 multiverse"
+    state: present
+    filename: "mongodb-4.2"
+  register: _apt
+  until: _apt is succeeded
+  retries: 5
+  tags: install
+
+- name: Install MongoDB Packages
+  apt:
+    name: mongodb-org
+    state: present
+  register: _apt
+  until: _apt is succeeded
+  retries: 5
+  tags: install
+
+- name: Configure service supervisor
+  systemd:
+    name: mongod
+    enabled: yes
+    state: started
+  tags: install
